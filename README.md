@@ -6,6 +6,13 @@ A reusable UI widget toolkit for the [TerrariaModder](https://github.com/terrari
 > **Framework:** .NET Framework 4.8
 > **Author:** Fostot
 
+### Packaged Libraries
+
+| Library | Version | Source |
+|---------|---------|--------|
+| **Lux** | v1.0.0 | [fostot/Lux](https://github.com/fostot/Lux) |
+| **Monofont** | v1.0.0 | [fostot/Monofont](https://github.com/fostot/Monofont) |
+
 ---
 
 ## Components
@@ -22,27 +29,71 @@ A reusable UI widget toolkit for the [TerrariaModder](https://github.com/terrari
 
 ## Dependencies
 
-| Dependency | Description |
-|------------|-------------|
-| **TerrariaModder.Core** | Core mod framework — provides `UIRenderer`, `WidgetInput`, `InputState`, `UIColors`, and base widget APIs. |
-| **Monofont** | Monospace bitmap font renderer — provides fixed-width glyph drawing for optional mono-styled text. |
+| Dependency | Required | Description |
+|------------|----------|-------------|
+| **TerrariaModder.Core** | Yes | Core mod framework — provides `UIRenderer`, `WidgetInput`, `InputState`, `UIColors`, and base widget APIs. Included with TerrariaModder. |
+| **Monofont** | Yes | Monospace bitmap font renderer — provides fixed-width glyph drawing for mono-styled text. **Packaged with Lux releases.** |
+
+### Getting Monofont
+
+Monofont is **included in every Lux release zip** and installs to the same `core/` directory. You do not need to download it separately.
+
+If you want to use Monofont standalone or need a newer version:
+
+1. Go to [fostot/Monofont releases](https://github.com/fostot/Monofont/releases)
+2. Download `Monofont.dll`
+3. Place it in `Terraria/TerrariaModder/core/`
+
+When referencing Monofont in your mod's `.csproj`:
+
+```xml
+<Reference Include="Monofont">
+  <HintPath>..\Monofont\bin\Monofont.dll</HintPath>
+  <Private>false</Private>
+</Reference>
+```
 
 ---
 
 ## Installation
 
-1. Build `Lux.dll` from the project (or grab it from `bin/`).
-2. Place it alongside your mod DLL where TerrariaModder can resolve it.
-3. Add a reference to `Lux.dll` in your mod's `.csproj`:
+### From Release (Recommended)
+
+1. Install [TerrariaModder](https://github.com/terraria-modder)
+2. Download the latest release zip from [Lux releases](https://github.com/fostot/Lux/releases)
+3. Extract the zip into your `Terraria/TerrariaModder/` directory — this places both `Lux.dll` and `Monofont.dll` into the `core/` folder
+
+```
+Terraria/
+└── TerrariaModder/
+    └── core/
+        ├── TerrariaModder.Core.dll   (already installed)
+        ├── Lux.dll                   ← from release zip
+        └── Monofont.dll              ← from release zip
+```
+
+### From Source
+
+1. Clone the repo and build with `dotnet build`
+2. Copy `bin/Lux.dll` to `Terraria/TerrariaModder/core/`
+3. Also install [Monofont](https://github.com/fostot/Monofont) to `core/`
+
+### Referencing in Your Mod
+
+Add references to both Lux and Monofont in your mod's `.csproj`:
 
 ```xml
 <Reference Include="Lux">
   <HintPath>..\Lux\bin\Lux.dll</HintPath>
   <Private>false</Private>
 </Reference>
+<Reference Include="Monofont">
+  <HintPath>..\Monofont\bin\Monofont.dll</HintPath>
+  <Private>false</Private>
+</Reference>
 ```
 
-4. Import the namespace:
+Import the namespace in your code:
 
 ```csharp
 using Lux.UI.Widgets;
@@ -411,4 +462,10 @@ public class MyMod
 
 ## License
 
-MIT
+This project is licensed under the **GNU General Public License v3.0** — see the [LICENSE.txt](LICENSE.txt) file for full details.
+
+You are free to modify and redistribute this code, provided that you:
+- Give appropriate credit to the original author
+- Include the full license text
+- Make your source code available under the same license
+- Link back to the original repository: [https://github.com/fostot/Lux](https://github.com/fostot/Lux)
